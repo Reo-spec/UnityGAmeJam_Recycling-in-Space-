@@ -6,8 +6,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerScript : MonoBehaviour
 {
-    //プレイヤーの移動速度
-    float moveSpeed = 1.0f;
+    //プレイヤーの移動速度指標
+    [SerializeField]float moveSpeed;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,23 +24,31 @@ public class PlayerScript : MonoBehaviour
     public void Move()
     {
         Vector3 move = Vector3.zero;
-
+        //キー入力
         if (Keyboard.current.wKey.isPressed)
         {
-            move.z = 1.0f;
+            move.x = -1.0f;
         }
         if (Keyboard.current.sKey.isPressed)
         {
-            move.z = -1.0f;
+            move.x = 1.0f;
         }
         if (Keyboard.current.dKey.isPressed)
         {
-            move.y = 1.0f;
+            move.z = 1.0f;
         }
         if (Keyboard.current.aKey.isPressed)
         {
-            move.y = -1.0f;
+            move.z = -1.0f;
         }
+        
         transform.Translate(move * moveSpeed * Time.deltaTime);
+
+        //左スティック
+        Vector2 stick = Gamepad.current.leftStick.ReadValue();
+        move.x += stick.x;
+        move.z += stick.y;
+
+        transform.Translate(move.normalized * moveSpeed * Time.deltaTime);
     }
 }
