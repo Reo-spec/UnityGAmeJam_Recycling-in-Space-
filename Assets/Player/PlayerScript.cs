@@ -27,19 +27,19 @@ public class PlayerScript : MonoBehaviour
 
         if (Keyboard.current.wKey.isPressed)
         {
-            move.z = 1.0f;
+            move.x = -1.0f;
         }
         if (Keyboard.current.sKey.isPressed)
         {
-            move.z = -1.0f;
+            move.x = 1.0f;
         }
         if (Keyboard.current.dKey.isPressed)
         {
-            move.y = 1.0f;
+            move.z = 1.0f;
         }
         if (Keyboard.current.aKey.isPressed)
         {
-            move.y = -1.0f;
+            move.z = -1.0f;
         }
         transform.Translate(move * moveSpeed * Time.deltaTime);
     }
