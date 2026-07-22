@@ -6,8 +6,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerScript : MonoBehaviour
 {
-    //プレイヤーの移動速度
-    float moveSpeed = 1.0f;
+    //プレイヤーの移動速度指標
+    [SerializeField]float moveSpeed;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
