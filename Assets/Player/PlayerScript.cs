@@ -24,7 +24,7 @@ public class PlayerScript : MonoBehaviour
     public void Move()
     {
         Vector3 move = Vector3.zero;
-
+        //キー入力
         if (Keyboard.current.wKey.isPressed)
         {
             move.x = -1.0f;
@@ -41,6 +41,14 @@ public class PlayerScript : MonoBehaviour
         {
             move.z = -1.0f;
         }
+        
         transform.Translate(move * moveSpeed * Time.deltaTime);
+
+        //左スティック
+        Vector2 stick = Gamepad.current.leftStick.ReadValue();
+        move.x += stick.x;
+        move.z += stick.y;
+
+        transform.Translate(move.normalized * moveSpeed * Time.deltaTime);
     }
 }
