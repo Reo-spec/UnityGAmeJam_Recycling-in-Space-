@@ -3,6 +3,7 @@
 ///
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -11,6 +12,12 @@ public class PlayerScript : MonoBehaviour
 
     //PlayerInputへの参照
     PlayerInput playerInput;
+
+    // アイテムを持つ位置（HoldPoint）
+    [SerializeField] Transform holdPoint;
+
+    GameObject heldItem;// 現在持っているアイテム
+    GameObject nearbyItem;// プレイヤーの近くにあるアイテム
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,7 +28,8 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Move();
+        Move();// 移動処理
+        Grab();// 掴む処理
     }
 
     public void Move()
@@ -60,5 +68,75 @@ public class PlayerScript : MonoBehaviour
         move.z = input.y;//元のコードを参照
 
         transform.Translate(move.normalized * moveSpeed * Time.deltaTime);
+    }
+    //プレイヤーが物体を掴む動き
+    void Grab()
+    {
+        //RBボタンの判定
+        // コントローラーが接続されていなければ終了
+        if (Gamepad.current == null) return;
+
+        // RBボタンが押された瞬間
+        if (Gamepad.current.rightShoulder.wasPressedThisFrame)
+        {
+            // 何も持っていなければ拾う
+            if (heldItem == null)
+                PickUp();
+            // 持っていれば離す
+            else
+                Drop();
+        }
+    }
+    //アイテムを持つ処理
+    void PickUp()
+    {
+        // 近くにアイテムが無ければ何もしない
+        if (nearbyItem == null) return;
+
+        // 持つアイテムとして保存
+        heldItem = nearbyItem;
+
+        // Rigidbodyを取得
+        Rigidbody rb = heldItem.GetComponent<Rigidbody>();
+
+        // 物理演算を停止
+        if (rb != null)
+            rb.isKinematic = true;
+
+        // HoldPointの子にする
+        heldItem.transform.SetParent(holdPoint);
+        // HoldPointと同じ位置に移動
+        heldItem.transform.localPosition = Vector3.zero;
+        // 回転をリセット
+        heldItem.transform.localRotation= Quaternion.identity;
+    }
+    //アイテムを離す処理
+    void Drop()
+    {
+        // HoldPointから外す
+        heldItem.transform.SetParent(null);
+
+        // Rigidbody取得
+        Rigidbody rb = heldItem.GetComponent<Rigidbody>();
+
+        // 物理演算を再開
+        if (rb != null)
+            rb.isKinematic = false;
+        // 持ち物を空にする
+        heldItem = null;
+    }
+    //アイテムを見つける処理
+    private void OnTriggerEnter(Collider other)
+    {
+        // Pickupタグなら保存
+        if (other.CompareTag("Pickup"))
+            nearbyItem = other.gameObject;
+    }
+    //アイテムから離れた処理
+    private void OnTriggerExit(Collider other)
+    {
+        // Pickupタグなら解除
+        if (other.CompareTag("Pickup"))
+            nearbyItem = null;
     }
 }
