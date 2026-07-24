@@ -15,6 +15,9 @@ public class ItemSpawner : MonoBehaviour
 
     //最大アイテム数
     [SerializeField] int maxItems = 10;
+
+    [SerializeField] GameObject[] trashPrefabs;
+
     void Start()
     {
         // 1秒後から開始して、
@@ -26,12 +29,23 @@ public class ItemSpawner : MonoBehaviour
         //最大数に達したら生成しない
         if (currentItems >= maxItems) return;
 
+        int id = Random.Range(0, trashPrefabs.Length);
+
         // Prefabを生成する
-        Instantiate(
-            itemPrefab,         // 生成するPrefab
+        GameObject item=Instantiate(
+            trashPrefabs[id],   // 生成するPrefab
             transform.position, // Spawnerの位置
             Quaternion.identity // 回転なし
          );
+
+        TrashItem trash = item.GetComponent<TrashItem>();
+        if(trash != null)
+        {
+            //ランダムID
+            trash.trashID = id;
+        }
+
+        
 
         //生成したので数を増やす
         currentItems++;
