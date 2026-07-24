@@ -3,7 +3,19 @@ using UnityEngine.SceneManagement;
 
 public class NewMonoBehaviourScript : MonoBehaviour
 {
-   public void StartBtn()
+
+    void Update()
+
+    {
+
+        if (Input.GetKeyDown(KeyCode.JoystickButton1))
+        {
+            StartBtn();
+        }
+
+    }
+
+    void StartBtn()
     {
         SceneManager.LoadScene("MainScene");
     }
