@@ -96,6 +96,8 @@ public class PlayerScript : MonoBehaviour
         // 持つアイテムとして保存
         heldItem = nearbyItem;
 
+        heldItem.tag = "HeldItem";
+
         // Rigidbodyを取得
         Rigidbody rb = heldItem.GetComponent<Rigidbody>();
 
@@ -113,30 +115,54 @@ public class PlayerScript : MonoBehaviour
     //アイテムを離す処理
     void Drop()
     {
+        heldItem.tag = "Pickup";
+
         // HoldPointから外す
         heldItem.transform.SetParent(null);
 
         // Rigidbody取得
         Rigidbody rb = heldItem.GetComponent<Rigidbody>();
 
-        // 物理演算を再開
+
         if (rb != null)
+        {
+            //物理演算を再開
             rb.isKinematic = false;
-        // 持ち物を空にする
-        heldItem = null;
+            //重力を無効化
+            rb.useGravity = false;
+            //速度をリセット
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            //スリープ解除
+            rb.WakeUp();
+
+        }
+        //親から外す
+        heldItem.transform.SetParent(null);
+
+        if (heldItem != null)
+        {
+            heldItem.tag = "Pickup";
+            // 持ち物を空にする
+            heldItem = null;
+
+        }
     }
-    //アイテムを見つける処理
     private void OnTriggerEnter(Collider other)
     {
-        // Pickupタグなら保存
-        if (other.CompareTag("Pickup"))
+        if (other.CompareTag("Pickup")||
+            other.CompareTag("Conveyor"))
+        {
             nearbyItem = other.gameObject;
+        }
     }
     //アイテムから離れた処理
     private void OnTriggerExit(Collider other)
     {
-        // Pickupタグなら解除
-        if (other.CompareTag("Pickup"))
+        if (other.CompareTag("Pickup") ||
+           other.CompareTag("Conveyor"))
+        {
             nearbyItem = null;
+        }
     }
 }
