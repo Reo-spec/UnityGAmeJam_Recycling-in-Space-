@@ -20,11 +20,11 @@ public class MeterScript : MonoBehaviour
     [SerializeField] Sprite[] meterSprites;
 
     //メーターのカウント
-    float Count = 0;
+    float Count = 0.0f;
     //ミスをカウント
-    float MistakeCount=0;
+    public float MistakeCount=0.0f;
     //ゴミの数
-    float Trash = 0;
+    public float Trash = 0.0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
