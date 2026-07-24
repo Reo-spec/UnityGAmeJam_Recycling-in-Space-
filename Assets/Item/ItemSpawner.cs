@@ -14,7 +14,7 @@ public class ItemSpawner : MonoBehaviour
     public int currentItems = 0;
 
     //最大アイテム数
-    [SerializeField] int maxItems = 10;
+    [SerializeField] int maxItems;
 
     [SerializeField] GameObject[] trashPrefabs;
 

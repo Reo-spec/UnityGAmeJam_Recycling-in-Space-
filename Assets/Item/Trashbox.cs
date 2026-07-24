@@ -27,16 +27,12 @@ public class Trashbox : MonoBehaviour
 
             Destroy(other.gameObject);
             meter.Trash++;
-            Debug.Log("ゴミ数 : " + meter.Trash);
-            Debug.Log("ミス数 : " + meter.MistakeCount);
         }
         else
         {
 
             Destroy(other.gameObject);
             meter.MistakeCount++;
-            Debug.Log("ゴミ数 : " + meter.Trash);
-            Debug.Log("ミス数 : " + meter.MistakeCount);
         }
     }
     void Update()
