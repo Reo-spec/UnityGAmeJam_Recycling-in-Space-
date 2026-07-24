@@ -13,13 +13,16 @@ public class ConveyorBelt : MonoBehaviour
     {
         if (!other.CompareTag("Conveyor")) return;
 
+        Vector3 pos = other.transform.position;
+
         //右方向へ流す
         other.transform.position +=
             Vector3.right * speed * Time.deltaTime;
 
         //高さ固定
-        //pos.y = height;
+        pos.y = height;
     }
+    //アイテムを見つける処理
     private void OnTriggerEnter(Collider other)
     {
         //コンベアに乗ったらタグ変更

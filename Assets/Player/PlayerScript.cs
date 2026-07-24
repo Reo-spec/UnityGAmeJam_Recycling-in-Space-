@@ -96,7 +96,6 @@ public class PlayerScript : MonoBehaviour
         // 持つアイテムとして保存
         heldItem = nearbyItem;
 
-        //持っている間はタグ変更
         heldItem.tag = "HeldItem";
 
         // Rigidbodyを取得
@@ -116,8 +115,7 @@ public class PlayerScript : MonoBehaviour
     //アイテムを離す処理
     void Drop()
     {
-        //離したら元に戻す
-        heldItem.tag = "PicKup";
+        heldItem.tag = "Pickup";
 
         // HoldPointから外す
         heldItem.transform.SetParent(null);
@@ -125,15 +123,16 @@ public class PlayerScript : MonoBehaviour
         // Rigidbody取得
         Rigidbody rb = heldItem.GetComponent<Rigidbody>();
 
-        
-        if (rb != null){
+
+        if (rb != null)
+        {
             //物理演算を再開
             rb.isKinematic = false;
-            //重力を有効化
-            rb.useGravity = true;
+            //重力を無効化
+            rb.useGravity = false;
             //速度をリセット
-            rb.linearVelocity= Vector3.zero;
-            rb.angularVelocity= Vector3.zero;
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
             //スリープ解除
             rb.WakeUp();
 
@@ -141,26 +140,29 @@ public class PlayerScript : MonoBehaviour
         //親から外す
         heldItem.transform.SetParent(null);
 
-        // 持ち物を空にする
-        heldItem = null;
+        if (heldItem != null)
+        {
+            heldItem.tag = "Pickup";
+            // 持ち物を空にする
+            heldItem = null;
 
-        //コンベア上なら再びConveyorにする
-        heldItem.tag = "Conveyor";
+        }
     }
-    //アイテムを見つける処理
     private void OnTriggerEnter(Collider other)
     {
-        // 指定したタグなら保存
         if (other.CompareTag("Pickup")||
             other.CompareTag("Conveyor"))
+        {
             nearbyItem = other.gameObject;
+        }
     }
     //アイテムから離れた処理
     private void OnTriggerExit(Collider other)
     {
-        // 指定したタグなら解除
         if (other.CompareTag("Pickup") ||
-            other.CompareTag("Conveyor"))
+           other.CompareTag("Conveyor"))
+        {
             nearbyItem = null;
+        }
     }
 }

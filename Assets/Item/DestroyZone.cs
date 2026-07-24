@@ -12,7 +12,7 @@ public class DestroyZone : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //コンベア上のものだけ削除
-        if(other.CompareTag("Conveyor"))
+        if (other.CompareTag("Conveyor"))
         {
             // 物体を削除
             Destroy(other.gameObject);
