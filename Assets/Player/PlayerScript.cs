@@ -64,8 +64,8 @@ public class PlayerScript : MonoBehaviour
         Vector2 input = playerInput.actions["Move"].ReadValue<Vector2>();
 
         Vector3 move = Vector3.zero;
-        move.x = input.x;//元のコードのｗキーに合わせている
-        move.z = input.y;//元のコードを参照
+        move.x = -input.x;//元のコードのｗキーに合わせている
+        move.z = -input.y;//元のコードを参照
 
         transform.Translate(move.normalized * moveSpeed * Time.deltaTime);
     }
