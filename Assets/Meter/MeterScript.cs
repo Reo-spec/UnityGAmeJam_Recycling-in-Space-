@@ -12,11 +12,11 @@ public class MeterScript : MonoBehaviour
     //ミスのカウント(例:ゴミを10回間違えた箱に入れたら-1カウント)
     [SerializeField] float Mistake;
     //メーターのカウント
-    float Count = 0;
+    float Count = 0.0f;
     //ミスをカウント
-    public float MistakeCount=0;
+    public float MistakeCount=0.0f;
     //ゴミの数
-    public float Trash = 0;
+    public float Trash = 0.0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

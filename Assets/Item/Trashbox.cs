@@ -8,6 +8,10 @@ public class Trashbox : MonoBehaviour
     [SerializeField] int correctID;
     [SerializeField] MeterScript meter;
 
+    void Start()
+    {
+        
+    }
     private void OnTriggerEnter(Collider other)
     {
         //持っているものは回収しない
@@ -20,22 +24,21 @@ public class Trashbox : MonoBehaviour
         //ゴミを入れたら加算させる
         if (trash.trashID == correctID)
         {
-            meter.Trash++;
+
             Destroy(other.gameObject);
+            meter.Trash++;
+            Debug.Log("ゴミ数 : " + meter.Trash);
+            Debug.Log("ミス数 : " + meter.MistakeCount);
         }
         else
         {
-            meter.MistakeCount++;
+
             Destroy(other.gameObject);
+            meter.MistakeCount++;
+            Debug.Log("ゴミ数 : " + meter.Trash);
+            Debug.Log("ミス数 : " + meter.MistakeCount);
         }
     }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         
