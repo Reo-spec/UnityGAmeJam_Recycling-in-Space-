@@ -45,10 +45,18 @@ public class ItemSpawner : MonoBehaviour
             trash.trashID = id;
         }
 
-        
+
 
         //生成したので数を増やす
         currentItems++;
+    }
+    public void ADDItemCount()
+    {
+        currentItems++;
+    }
+    public void RemoveItemCount()
+    {
+        currentItems--;
     }
     
 }

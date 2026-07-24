@@ -14,9 +14,9 @@ public class MeterScript : MonoBehaviour
     //メーターのカウント
     float Count = 0;
     //ミスをカウント
-    float MistakeCount=0;
+    public float MistakeCount=0;
     //ゴミの数
-    float Trash = 0;
+    public float Trash = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
