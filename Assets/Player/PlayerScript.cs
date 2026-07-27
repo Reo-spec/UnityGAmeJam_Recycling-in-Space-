@@ -13,23 +13,35 @@ public class PlayerScript : MonoBehaviour
     //PlayerInputへの参照
     PlayerInput playerInput;
 
+    Rigidbody rb;
+
     // アイテムを持つ位置（HoldPoint）
     [SerializeField] Transform holdPoint;
 
     GameObject heldItem;// 現在持っているアイテム
     GameObject nearbyItem;// プレイヤーの近くにあるアイテム
 
+    //メーター参照
+    [SerializeField] MeterScript meterScript;
+    //アイテム生成を参照
+    [SerializeField] ItemSpawner itemSpawner;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerInput = GetComponent<PlayerInput>();
+        rb = GetComponent<Rigidbody>(); // ← 追加
     }
 
     // Update is called once per frame
     void Update()
     {
-        Move();// 移動処理
         Grab();// 掴む処理
+    }
+
+    void FixedUpdate()
+    {
+        Move();// 移動処理
     }
 
     public void Move()
@@ -67,7 +79,10 @@ public class PlayerScript : MonoBehaviour
         move.x = -input.x;//元のコードのｗキーに合わせている
         move.z = -input.y;//元のコードを参照
 
-        transform.Translate(move.normalized * moveSpeed * Time.deltaTime);
+        //transform.Translate(move.normalized * moveSpeed * Time.deltaTime);
+
+        Vector3 targetPos = rb.position + move.normalized * moveSpeed * Time.deltaTime;
+        rb.MovePosition(targetPos);
     }
     //プレイヤーが物体を掴む動き
     void Grab()
@@ -93,6 +108,16 @@ public class PlayerScript : MonoBehaviour
         // 近くにアイテムが無ければ何もしない
         if (nearbyItem == null) return;
 
+        BombItem bomb = nearbyItem.GetComponent<BombItem>();
+        //爆弾判定
+        if(bomb != null)
+        {
+            //ミス(例：+5)
+            meterScript.MistakeCount += bomb.penalty;
+            //アイテム数を減らす
+            itemSpawner.RemoveItemCount();
+
+        }
         // 持つアイテムとして保存
         heldItem = nearbyItem;
 
@@ -105,12 +130,26 @@ public class PlayerScript : MonoBehaviour
         if (rb != null)
             rb.isKinematic = true;
 
+        //持っている間コリダーを無効化
+        Collider col=heldItem.GetComponent<Collider>();
+        if(col != null)
+           col.enabled = false;
+
         // HoldPointの子にする
         heldItem.transform.SetParent(holdPoint);
         // HoldPointと同じ位置に移動
         heldItem.transform.localPosition = Vector3.zero;
         // 回転をリセット
         heldItem.transform.localRotation= Quaternion.identity;
+        if(bomb != null)
+        {
+            Destroy(heldItem);
+
+            heldItem = null;
+            nearbyItem = null;
+
+            return;
+        }
     }
     //アイテムを離す処理
     void Drop()
@@ -123,6 +162,10 @@ public class PlayerScript : MonoBehaviour
         // Rigidbody取得
         Rigidbody rb = heldItem.GetComponent<Rigidbody>();
 
+        // ← 追加：離すときにColliderを再度有効化
+        Collider col = heldItem.GetComponent<Collider>();
+        if (col != null)
+            col.enabled = true;
 
         if (rb != null)
         {

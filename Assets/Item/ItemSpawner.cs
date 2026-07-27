@@ -5,36 +5,87 @@ using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour
 {
+    //通常ごみ
     // 生成するPrefab（箱など）
     [SerializeField] GameObject itemPrefab;
     // 何秒ごとに生成するか
-    [SerializeField] float spawnInterval = 3f;
+    [SerializeField] float startspawnInterval = 3f;
+    public float spawnInterval;
 
     //現在シーン内に存在するアイテム数
     public int currentItems = 0;
 
     //最大アイテム数
-    [SerializeField] int maxItems = 10;
+    [SerializeField] int maxItems;
+    [SerializeField]GameObject[] trashPrefabs;
+
+    //爆弾
+    //爆弾専用Prefab
+    [SerializeField] private GameObject bombPrefab;
+    //爆弾の出現確率(例:5%)
+    [SerializeField] private float bombRate = 0.05f;
+
     void Start()
     {
+        spawnInterval = startspawnInterval;
         // 1秒後から開始して、
         // spawnInterval秒ごとにSpawnItemを実行
         InvokeRepeating(nameof(SpawnItem),1f,spawnInterval);
+    }
+    public void SetSpawnInterval(float interval)
+    {
+        spawnInterval = interval;
+        CancelInvoke(nameof(SpawnItem));
+        InvokeRepeating(nameof(SpawnItem),1f,spawnInterval);
+    }
+    void Update()
+    {
+
     }
     void SpawnItem()
     {
         //最大数に達したら生成しない
         if (currentItems >= maxItems) return;
 
-        // Prefabを生成する
-        Instantiate(
-            itemPrefab,         // 生成するPrefab
-            transform.position, // Spawnerの位置
-            Quaternion.identity // 回転なし
-         );
+        GameObject item;
+        
+        if(Random.value<bombRate)
+        {
+            //爆弾生成
+            item = Instantiate(
+                bombPrefab,
+                transform.position,
+                Quaternion.identity
+            );
+        }
+        else
+        {
+            //通常ごみ生成
+            int id = Random.Range(0, trashPrefabs.Length);
+
+            item = Instantiate(
+                trashPrefabs[id],   // 生成するPrefab
+                transform.position, // Spawnerの位置
+                Quaternion.identity // 回転なし
+             );
+            TrashItem trash = item.GetComponent<TrashItem>();
+            if (trash != null)
+            {
+                //ランダムID
+                trash.trashID = id;
+            }
+        }
 
         //生成したので数を増やす
         currentItems++;
+    }
+    public void ADDItemCount()
+    {
+        currentItems++;
+    }
+    public void RemoveItemCount()
+    {
+        currentItems--;
     }
     
 }
