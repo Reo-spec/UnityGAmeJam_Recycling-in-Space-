@@ -112,15 +112,11 @@ public class PlayerScript : MonoBehaviour
         //爆弾判定
         if(bomb != null)
         {
-            Debug.Log("爆発！");
             //ミス(例：+5)
             meterScript.MistakeCount += bomb.penalty;
             //アイテム数を減らす
             itemSpawner.RemoveItemCount();
-            //爆弾を消す
-            Destroy(nearbyItem);
-            nearbyItem = null;
-            return;
+
         }
         // 持つアイテムとして保存
         heldItem = nearbyItem;
@@ -145,6 +141,15 @@ public class PlayerScript : MonoBehaviour
         heldItem.transform.localPosition = Vector3.zero;
         // 回転をリセット
         heldItem.transform.localRotation= Quaternion.identity;
+        if(bomb != null)
+        {
+            Destroy(heldItem);
+
+            heldItem = null;
+            nearbyItem = null;
+
+            return;
+        }
     }
     //アイテムを離す処理
     void Drop()
