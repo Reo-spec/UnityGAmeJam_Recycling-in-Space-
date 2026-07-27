@@ -8,22 +8,20 @@ using UnityEngine.UI;
 public class PlayerScript : MonoBehaviour
 {
     //プレイヤーの移動速度指標
+    [Header("移動速度")]
     [SerializeField]float moveSpeed;
-
     //PlayerInputへの参照
     PlayerInput playerInput;
-
     Rigidbody rb;
-
     // アイテムを持つ位置（HoldPoint）
+    [Header("アイテムを持つ位置")]
     [SerializeField] Transform holdPoint;
 
     GameObject heldItem;// 現在持っているアイテム
     GameObject nearbyItem;// プレイヤーの近くにあるアイテム
 
-    //メーター参照
+    //参照
     [SerializeField] MeterScript meterScript;
-    //アイテム生成を参照
     [SerializeField] ItemSpawner itemSpawner;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
