@@ -6020,8 +6020,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimerScript
   timerText: {fileID: 1195180469}
-  startTime: 180
-  nextSceneName: 
+  startTime: 5
+  nextSceneName: GameOver
   elapsedTime: 0
 --- !u!114 &1195180469
 MonoBehaviour:
