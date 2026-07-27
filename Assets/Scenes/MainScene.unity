@@ -253,8 +253,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5ca1ae2277fded47bd4c5155b2969ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ConveyorBelt
-  speed: 2
+  startspeed: 2
   height: 1
+  timer: {fileID: 1195180468}
+  Time120: 1
+  Time60: 1
+  Time30: 1
+  spawner: {fileID: 1055974372}
+  ItemTime120: 2
+  ItemTime60: 1
+  ItemTime30: 0.5
+  ItemTime0: 0
 --- !u!1001 &38059743
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5086,6 +5095,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemSpawner
   itemPrefab: {fileID: 1848301360}
+  startspawnInterval: 3
   spawnInterval: 3
   currentItems: 0
   maxItems: 1000
@@ -5486,6 +5496,7 @@ MonoBehaviour:
   timerText: {fileID: 1195180469}
   startTime: 180
   nextSceneName: 
+  elapsedTime: 0
 --- !u!114 &1195180469
 MonoBehaviour:
   m_ObjectHideFlags: 0

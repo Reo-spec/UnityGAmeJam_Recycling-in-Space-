@@ -23,6 +23,7 @@ public class ConveyorBelt : MonoBehaviour
     private bool speedUp120 = false;
     private bool speedUp60 = false;
     private bool speedUp30 = false;
+    private bool speedUp0=false;
 
     //時間経過ごとの物体生成数
     //ItemSpawnerを参照する
@@ -31,6 +32,7 @@ public class ConveyorBelt : MonoBehaviour
     [SerializeField] float ItemTime120;
     [SerializeField] float ItemTime60;
     [SerializeField] float ItemTime30;
+    [SerializeField] float ItemTime0;
 
     //初期化
     void Start()
@@ -39,6 +41,7 @@ public class ConveyorBelt : MonoBehaviour
         speedUp120 = false;
         speedUp60 = false;
         speedUp30 = false;
+        speedUp0 = false;
     }
     //更新処理
     void Update()
@@ -67,6 +70,11 @@ public class ConveyorBelt : MonoBehaviour
             speed += Time30;
             spawner.SetSpawnInterval(ItemTime30);
             speedUp30 = true;
+        }
+        if (!speedUp0 && timer.elapsedTime <= 0)
+        {
+            spawner.SetSpawnInterval(ItemTime0);
+            speedUp0 = true;
         }
     }
 
