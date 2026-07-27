@@ -37,7 +37,10 @@ public class EventManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (CurrentState != EventState.Normal) return;
+
         eventtimer-= Time.deltaTime;
+
         if(eventtimer<=0 )
         {
             CheckEvent();
@@ -48,7 +51,6 @@ public class EventManager : MonoBehaviour
     void ResetTimer()
     {
         eventtimer = Random.Range(minTime, maxTime);
-        Debug.Log("次のイベント判定まで：" + eventtimer + "秒");
     }
     //イベント判定
     void CheckEvent()
@@ -84,6 +86,8 @@ public class EventManager : MonoBehaviour
 
         itemSpawner.SetMeteorMode(false);
         conveyorBelt.SetSpeedMultiplier(1f);
+
+        ResetTimer();
 
         Debug.Log("隕石イベント終了");
     }

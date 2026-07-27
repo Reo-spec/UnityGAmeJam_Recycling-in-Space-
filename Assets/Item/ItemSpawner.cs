@@ -40,6 +40,7 @@ public class ItemSpawner : MonoBehaviour
         // 1秒後から開始して、
         // spawnInterval秒ごとにSpawnItemを実行
         InvokeRepeating(nameof(SpawnItem),1f,spawnInterval);
+        meteorMode = false;
     }
     public void SetSpawnInterval(float interval)
     {
@@ -57,10 +58,12 @@ public class ItemSpawner : MonoBehaviour
         if (currentItems >= maxItems) return;
 
         GameObject item;
+
         if (meteorMode)
         {
             if (Random.value < mineralRate)
             {
+
                 int mineralId = Random.Range(0, mineralPrefab.Length);
 
                 item = Instantiate(
