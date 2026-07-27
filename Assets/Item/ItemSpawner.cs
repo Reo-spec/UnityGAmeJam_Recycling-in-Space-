@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour
 {
+    //通常ごみ
     // 生成するPrefab（箱など）
     [SerializeField] GameObject itemPrefab;
     // 何秒ごとに生成するか
@@ -16,8 +17,13 @@ public class ItemSpawner : MonoBehaviour
 
     //最大アイテム数
     [SerializeField] int maxItems;
+    [SerializeField]GameObject[] trashPrefabs;
 
-    [SerializeField] GameObject[] trashPrefabs;
+    //爆弾
+    //爆弾専用Prefab
+    [SerializeField] private GameObject bombPrefab;
+    //爆弾の出現確率(例:5%)
+    [SerializeField] private float bombRate = 0.05f;
 
     void Start()
     {
@@ -41,23 +47,34 @@ public class ItemSpawner : MonoBehaviour
         //最大数に達したら生成しない
         if (currentItems >= maxItems) return;
 
-        int id = Random.Range(0, trashPrefabs.Length);
-
-        // Prefabを生成する
-        GameObject item=Instantiate(
-            trashPrefabs[id],   // 生成するPrefab
-            transform.position, // Spawnerの位置
-            Quaternion.identity // 回転なし
-         );
-
-        TrashItem trash = item.GetComponent<TrashItem>();
-        if(trash != null)
+        GameObject item;
+        
+        if(Random.value<bombRate)
         {
-            //ランダムID
-            trash.trashID = id;
+            //爆弾生成
+            item = Instantiate(
+                bombPrefab,
+                transform.position,
+                Quaternion.identity
+            );
         }
+        else
+        {
+            //通常ごみ生成
+            int id = Random.Range(0, trashPrefabs.Length);
 
-
+            item = Instantiate(
+                trashPrefabs[id],   // 生成するPrefab
+                transform.position, // Spawnerの位置
+                Quaternion.identity // 回転なし
+             );
+            TrashItem trash = item.GetComponent<TrashItem>();
+            if (trash != null)
+            {
+                //ランダムID
+                trash.trashID = id;
+            }
+        }
 
         //生成したので数を増やす
         currentItems++;

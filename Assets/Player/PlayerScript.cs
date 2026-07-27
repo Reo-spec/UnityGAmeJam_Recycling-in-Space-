@@ -21,6 +21,11 @@ public class PlayerScript : MonoBehaviour
     GameObject heldItem;// 現在持っているアイテム
     GameObject nearbyItem;// プレイヤーの近くにあるアイテム
 
+    //メーター参照
+    [SerializeField] MeterScript meterScript;
+    //アイテム生成を参照
+    [SerializeField] ItemSpawner itemSpawner;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -103,6 +108,16 @@ public class PlayerScript : MonoBehaviour
         // 近くにアイテムが無ければ何もしない
         if (nearbyItem == null) return;
 
+        BombItem bomb = nearbyItem.GetComponent<BombItem>();
+        //爆弾判定
+        if(bomb != null)
+        {
+            //ミス(例：+5)
+            meterScript.MistakeCount += bomb.penalty;
+            //アイテム数を減らす
+            itemSpawner.RemoveItemCount();
+
+        }
         // 持つアイテムとして保存
         heldItem = nearbyItem;
 
@@ -126,6 +141,15 @@ public class PlayerScript : MonoBehaviour
         heldItem.transform.localPosition = Vector3.zero;
         // 回転をリセット
         heldItem.transform.localRotation= Quaternion.identity;
+        if(bomb != null)
+        {
+            Destroy(heldItem);
+
+            heldItem = null;
+            nearbyItem = null;
+
+            return;
+        }
     }
     //アイテムを離す処理
     void Drop()

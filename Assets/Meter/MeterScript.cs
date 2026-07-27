@@ -31,13 +31,17 @@ public class MeterScript : MonoBehaviour
     {
         //ゲーム開始時にメーターの見た目を初期状態にする
         UpdateMeterUI();
-
     }
 
     // Update is called once per frame
     void Update()
     {
         ADDmeter();
+        Debug.Log(
+            "ゴミ:" + Trash +
+            "ミス:" + MistakeCount +
+            "カウント:" + Count
+        );
     }
 
     [ContextMenu("Add Trash")]
@@ -81,7 +85,7 @@ public class MeterScript : MonoBehaviour
 
         //Countの配列の範囲(0〜配列の最大数)に収める
         int index=Mathf.Clamp((int)Count,0,meterSprites.Length - 1);
-        Debug.Log($"Count={Count}, index={index}, sprite={meterSprites[index].name}");
+        //Debug.Log($"Count={Count}, index={index}, sprite={meterSprites[index].name}");
         //画像を差し替える
         meterImage.sprite = meterSprites[index];
 
