@@ -1,14 +1,11 @@
 ///
-///爆弾を制御するクラス
+///鉱物を管理するクラス
 ///
 using UnityEngine;
 
-public class BombItem : MonoBehaviour
+public class MineralItem : MonoBehaviour
 {
-    //ミスカウントを進める数
-    [SerializeField] public int penalty = 5;
-
-    public int bombID;
+    public int mineralID;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

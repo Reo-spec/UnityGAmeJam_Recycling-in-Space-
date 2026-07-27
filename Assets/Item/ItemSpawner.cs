@@ -5,25 +5,34 @@ using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour
 {
+    [Header("Prefab")]
+    [Header("通常ごみ")]
+    [SerializeField] GameObject[] trashPrefabs;
+    [Header("爆弾")]
+    [SerializeField] GameObject[] bombPrefab;
+    [Header("鉱石")]
+    [SerializeField] GameObject[] mineralPrefab;
     //通常ごみ
     // 生成するPrefab（箱など）
+    [Header("基本の見た目")]
     [SerializeField] GameObject itemPrefab;
-    // 何秒ごとに生成するか
+    [Header("基本生成頻度")]
     [SerializeField] float startspawnInterval = 3f;
     public float spawnInterval;
 
     //現在シーン内に存在するアイテム数
     public int currentItems = 0;
 
-    //最大アイテム数
+    [Header("アイテム生成の最大数")]
     [SerializeField] int maxItems;
-    [SerializeField]GameObject[] trashPrefabs;
 
-    //爆弾
-    //爆弾専用Prefab
-    [SerializeField] private GameObject bombPrefab;
     //爆弾の出現確率(例:5%)
+    [Header("爆弾出現確率")]
     [SerializeField] private float bombRate = 0.05f;
+    [Header("鉱石出現率")]
+    [SerializeField] private float mineralRate = 0.7f;
+    //隕石衝突イベント
+    private bool meteorMode = false;
 
     void Start()
     {
@@ -48,15 +57,41 @@ public class ItemSpawner : MonoBehaviour
         if (currentItems >= maxItems) return;
 
         GameObject item;
-        
+        if (meteorMode)
+        {
+            if (Random.value < mineralRate)
+            {
+                int mineralId = Random.Range(0, mineralPrefab.Length);
+
+                item = Instantiate(
+                    mineralPrefab[mineralId],
+                    transform.position,
+                    Quaternion.identity
+                );
+                MineralItem mineral = item.GetComponent<MineralItem>();
+                if (mineral != null)
+                {
+                    mineral.mineralID = mineralId;
+                }
+                currentItems++;
+                return;
+            }
+        }
         if(Random.value<bombRate)
         {
+            int bombId = Random.Range(0, bombPrefab.Length);
+
             //爆弾生成
             item = Instantiate(
-                bombPrefab,
+                bombPrefab[bombId],
                 transform.position,
                 Quaternion.identity
             );
+            BombItem bomb = item.GetComponent<BombItem>();
+            if ( bomb != null )
+            {
+                bomb.bombID = bombId;
+            }
         }
         else
         {
@@ -87,5 +122,8 @@ public class ItemSpawner : MonoBehaviour
     {
         currentItems--;
     }
-    
+    public void SetMeteorMode(bool active)
+    {
+        meteorMode = active;
+    }
 }

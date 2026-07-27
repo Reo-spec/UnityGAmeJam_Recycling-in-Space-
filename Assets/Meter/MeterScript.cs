@@ -7,10 +7,13 @@ using UnityEngine.UI;
 public class MeterScript : MonoBehaviour
 {
     //ゴミのカウント(例:ゴミが10個貯まったら1カウント)
+    [Header("1カウントの必要数")]
     [SerializeField] float OneCount;
     //メーターの上限値(例:6カウント貯まったらクリア)
+    [Header("カウント上限")]
     [SerializeField] float CountMax = 6;
     //ミスのカウント(例:ゴミを10回間違えた箱に入れたら-1カウント)
+    [Header("ミスの1カウント必要数")]
     [SerializeField] float Mistake;
 
     //表示を切り換える
