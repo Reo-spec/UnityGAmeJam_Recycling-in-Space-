@@ -13,6 +13,8 @@ public class PlayerScript : MonoBehaviour
     //PlayerInputへの参照
     PlayerInput playerInput;
 
+    Rigidbody rb;
+
     // アイテムを持つ位置（HoldPoint）
     [SerializeField] Transform holdPoint;
 
@@ -23,13 +25,18 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         playerInput = GetComponent<PlayerInput>();
+        rb = GetComponent<Rigidbody>(); // ← 追加
     }
 
     // Update is called once per frame
     void Update()
     {
-        Move();// 移動処理
         Grab();// 掴む処理
+    }
+
+    void FixedUpdate()
+    {
+        Move();// 移動処理
     }
 
     public void Move()
@@ -67,7 +74,10 @@ public class PlayerScript : MonoBehaviour
         move.x = -input.x;//元のコードのｗキーに合わせている
         move.z = -input.y;//元のコードを参照
 
-        transform.Translate(move.normalized * moveSpeed * Time.deltaTime);
+        //transform.Translate(move.normalized * moveSpeed * Time.deltaTime);
+
+        Vector3 targetPos = rb.position + move.normalized * moveSpeed * Time.deltaTime;
+        rb.MovePosition(targetPos);
     }
     //プレイヤーが物体を掴む動き
     void Grab()
@@ -105,6 +115,11 @@ public class PlayerScript : MonoBehaviour
         if (rb != null)
             rb.isKinematic = true;
 
+        //持っている間コリダーを無効化
+        Collider col=heldItem.GetComponent<Collider>();
+        if(col != null)
+           col.enabled = false;
+
         // HoldPointの子にする
         heldItem.transform.SetParent(holdPoint);
         // HoldPointと同じ位置に移動
@@ -123,6 +138,10 @@ public class PlayerScript : MonoBehaviour
         // Rigidbody取得
         Rigidbody rb = heldItem.GetComponent<Rigidbody>();
 
+        // ← 追加：離すときにColliderを再度有効化
+        Collider col = heldItem.GetComponent<Collider>();
+        if (col != null)
+            col.enabled = true;
 
         if (rb != null)
         {
