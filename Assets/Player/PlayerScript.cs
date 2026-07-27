@@ -31,6 +31,12 @@ public class PlayerScript : MonoBehaviour
     {
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>(); // ← 追加
+        MultiplayerCamera3D.Instance.RegisterPlayer(transform);
+    }
+
+    void OnDestroy()
+    {
+        MultiplayerCamera3D.Instance.UnregisterPlayer(transform);
     }
 
     // Update is called once per frame
