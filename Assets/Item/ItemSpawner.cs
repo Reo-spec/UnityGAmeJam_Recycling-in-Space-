@@ -8,7 +8,8 @@ public class ItemSpawner : MonoBehaviour
     // 生成するPrefab（箱など）
     [SerializeField] GameObject itemPrefab;
     // 何秒ごとに生成するか
-    [SerializeField] float spawnInterval = 3f;
+    [SerializeField] float startspawnInterval = 3f;
+    public float spawnInterval;
 
     //現在シーン内に存在するアイテム数
     public int currentItems = 0;
@@ -20,9 +21,20 @@ public class ItemSpawner : MonoBehaviour
 
     void Start()
     {
+        spawnInterval = startspawnInterval;
         // 1秒後から開始して、
         // spawnInterval秒ごとにSpawnItemを実行
         InvokeRepeating(nameof(SpawnItem),1f,spawnInterval);
+    }
+    public void SetSpawnInterval(float interval)
+    {
+        spawnInterval = interval;
+        CancelInvoke(nameof(SpawnItem));
+        InvokeRepeating(nameof(SpawnItem),1f,spawnInterval);
+    }
+    void Update()
+    {
+
     }
     void SpawnItem()
     {

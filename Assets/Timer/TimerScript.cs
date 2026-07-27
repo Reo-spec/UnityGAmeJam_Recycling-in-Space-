@@ -13,7 +13,7 @@ public class TimerScript : MonoBehaviour
     [Header("時間切れ後のシーン遷移")]
     [SerializeField] private string nextSceneName; // 次のシーンができたら、ここにシーン名を入れる
 
-    private float elapsedTime = 0f;
+    public float elapsedTime = 0f;
     private bool isRunning = true;
     
     void Start()
