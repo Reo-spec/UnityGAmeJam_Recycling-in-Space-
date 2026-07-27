@@ -15,7 +15,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
     }
 
-    void StartBtn()
+    public void StartBtn()
     {
         SceneManager.LoadScene("MainScene");
     }
