@@ -92,16 +92,23 @@ public class PlayerScript : MonoBehaviour
     void Grab()
     {
         //RBボタンの判定
-        // コントローラーが接続されていなければ終了
-        if (Gamepad.current == null) return;
+        //// コントローラーが接続されていなければ終了
+        //if (Gamepad.current == null) return;
 
-        // RBボタンが押された瞬間
-        if (Gamepad.current.rightShoulder.wasPressedThisFrame)
+        //// RBボタンが押された瞬間
+        //if (Gamepad.current.rightShoulder.wasPressedThisFrame)
+        //{
+        //    // 何も持っていなければ拾う
+        //    if (heldItem == null)
+        //        PickUp();
+        //    // 持っていれば離す
+        //    else
+        //        Drop();
+        //}
+        if (playerInput.actions["Grab"].WasPressedThisFrame())
         {
-            // 何も持っていなければ拾う
             if (heldItem == null)
                 PickUp();
-            // 持っていれば離す
             else
                 Drop();
         }

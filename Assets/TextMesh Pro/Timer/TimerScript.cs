@@ -60,7 +60,7 @@ public class TimerScript : MonoBehaviour
         //    return;
         //}
 
-        SceneManager.LoadScene(nextSceneName);//シーンを変更するプログラム
+        SceneManager.LoadScene("GameOver");//シーンを変更するプログラム
     }
 
     //ゲームが実際に始まったタイミングで出す
