@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 65c5a7daf4514445baface73c86231d7
+guid: 989e0d97e596c4f19908385d11e90f45
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable: []
@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Material
-    second: {fileID: 2100000, guid: 88dbfa2932ec1445cbdde52939a2721d, type: 2}
+    second: {fileID: 2100000, guid: a26f45c6ad43d44038d1cc53bbc6d39f, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -113,5 +113,5 @@ AssetOrigin:
   productId: 221035
   packageName: Props 3D
   packageVersion: 1.02
-  assetPath: Assets/bag.fbx
+  assetPath: Assets/Props_3D/Fbx/powder.fbx
   uploadId: 586663
