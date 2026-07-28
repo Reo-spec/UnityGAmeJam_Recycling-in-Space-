@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class Trashbox : MonoBehaviour
 {
+    [Header("どのIDのごみを処理するか")]
     [SerializeField] int correctID;
+    [Header("参照")]
     [SerializeField] MeterScript meter;
 
     void Start()
@@ -19,24 +21,18 @@ public class Trashbox : MonoBehaviour
 
         TrashItem trash=other.GetComponent<TrashItem>();
 
+        //TrashItemがついていなかったらここで処理を終了する
         if (trash == null) return;
 
         //ゴミを入れたら加算させる
         if (trash.trashID == correctID)
         {
-
-            Destroy(other.gameObject);
             meter.Trash++;
         }
         else
         {
-
-            Destroy(other.gameObject);
             meter.MistakeCount++;
         }
-    }
-    void Update()
-    {
-        
+        Destroy(other.gameObject);
     }
 }
