@@ -8,13 +8,13 @@ public class MeterScript : MonoBehaviour
 {
     //ゴミのカウント(例:ゴミが10個貯まったら1カウント)
     [Header("1カウントの必要数")]
-    [SerializeField] float OneCount;
+    [SerializeField] int OneCount;
     //メーターの上限値(例:6カウント貯まったらクリア)
     [Header("カウント上限")]
-    [SerializeField] float CountMax = 6;
+    [SerializeField] int CountMax = 6;
     //ミスのカウント(例:ゴミを10回間違えた箱に入れたら-1カウント)
     [Header("ミスの1カウント必要数")]
-    [SerializeField] float Mistake;
+    [SerializeField] int Mistake;
 
     //表示を切り換える
     [SerializeField] Image meterImage;
@@ -23,11 +23,11 @@ public class MeterScript : MonoBehaviour
     [SerializeField] Sprite[] meterSprites;
 
     //メーターのカウント
-    float Count = 0.0f;
+    int Count = 0;
     //ミスをカウント
-    public float MistakeCount=0.0f;
+    public int MistakeCount=0;
     //ゴミの数
-    public float Trash = 0.0f;
+    public int Trash = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -40,6 +40,7 @@ public class MeterScript : MonoBehaviour
     void Update()
     {
         ADDmeter();
+        UpdateMeterUI();
         Debug.Log(
             "ゴミ:" + Trash +
             "ミス:" + MistakeCount +
@@ -53,23 +54,21 @@ public class MeterScript : MonoBehaviour
         //ゴミの正誤判定
 
         //ゴミが一定値貯まったらカウントを1進める
-        if (OneCount == Trash && OneCount > 0)
+        if (OneCount <= Trash && OneCount > 0)
         {
             Count += 1;
             //初期化
-            Trash = 0;
+            Trash -= OneCount;
         }
         
         //ミスが一定値貯まったらカウントを-1する
-        if (Mistake == MistakeCount && Mistake > 0)
+        if (Mistake <= MistakeCount && Mistake > 0)
         {
             Count -= 1;
             //初期化
-            MistakeCount = 0;
+            MistakeCount -= Mistake;
         }
 
-        UpdateMeterUI();
-        
         //メーターが0から-1になった場合(ゲームオーバー)
         if(Count < 0)
         {
@@ -84,11 +83,12 @@ public class MeterScript : MonoBehaviour
 
     void UpdateMeterUI()
     {
+        Debug.Log("UpdateMeterUI");
         if (meterImage == null || meterSprites.Length == 0) return;
 
         //Countの配列の範囲(0〜配列の最大数)に収める
         int index=Mathf.Clamp((int)Count,0,meterSprites.Length - 1);
-        //Debug.Log($"Count={Count}, index={index}, sprite={meterSprites[index].name}");
+        Debug.Log($"Count={Count}, index={index}, sprite={meterSprites[index].name}");
         //画像を差し替える
         meterImage.sprite = meterSprites[index];
 
