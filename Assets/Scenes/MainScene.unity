@@ -6037,7 +6037,7 @@ MonoBehaviour:
   conveyorBelt: {fileID: 27129486}
   itemSpawner: {fileID: 1055974372}
   timer: {fileID: 1195180468}
-  eventChance: 1
+  eventChance: 0.2
   minTime: 105
   maxTime: 150
   eventDuration: 30
