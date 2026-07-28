@@ -10,9 +10,9 @@ public class Incinerator : MonoBehaviour
     [Header("参照")]
     [SerializeField] MeterScript meter;
     [Header("成功時のポイント")]
-    [SerializeField] float Success;
+    [SerializeField] int Success;
     [Header("失敗時のポイント")]
-    [SerializeField] float Failure;
+    [SerializeField] int Failure;
     private void OnTriggerEnter(Collider other)
     {
         //持っているものは回収しない

@@ -1,22 +1,31 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerVisual : MonoBehaviour
 {
-    public GameObject model01Prefab;
-    public GameObject model02Prefab;
+    [Header("モデル")]
+    [SerializeField]public GameObject[] models;
 
     void Start()
     {
         PlayerInput input = GetComponent<PlayerInput>();
 
-        if (input.playerIndex == 0)
+        if (input.playerIndex < models.Length)
         {
-            Instantiate(model01Prefab, transform);
+
+            Instantiate(models[input.playerIndex], transform);
         }
-        else
+
+        //自分のHoldPointに入っているものを削除
+        Transform holdPoint = transform.Find("HoldPoint");
+
+        if(holdPoint != null)
         {
-            Instantiate(model02Prefab, transform);
+            foreach(Transform child in holdPoint)
+            {
+                Destroy(child.gameObject);
+            }
         }
     }
 }
