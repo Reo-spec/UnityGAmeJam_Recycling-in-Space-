@@ -11,11 +11,11 @@ public class TimerScript : MonoBehaviour
     [SerializeField] private float startTime = 180f;
 
     [Header("時間切れ後のシーン遷移")]
-    [SerializeField] private string nextSceneName; // 次のシーンができたら、ここにシーン名を入れる
+    [SerializeField] private string nextSceneName = "GameOver"; // 次のシーンができたら、ここにシーン名を入れる
 
     public float elapsedTime = 0f;
     private bool isRunning = true;
-    
+
     void Start()
     {
         elapsedTime = startTime;
@@ -28,7 +28,7 @@ public class TimerScript : MonoBehaviour
         if (isRunning)
         {
             elapsedTime -= Time.deltaTime;
-            if(elapsedTime <= 0f)
+            if (elapsedTime <= 0f)
             {
                 elapsedTime = 0f;
                 isRunning = false;
@@ -54,13 +54,13 @@ public class TimerScript : MonoBehaviour
     {
         Debug.Log("タイムアップ！");
 
-        if (string.IsNullOrEmpty(nextSceneName))
-        {
-            Debug.LogWarning("Next Scene Nameが未設定です。シーンができたらInspectorで設定してください。");
-            return;
-        }
+        //if (string.IsNullOrEmpty(GameOver))
+        //{
+        //    Debug.LogWarning("Next Scene Nameが未設定です。シーンができたらInspectorで設定してください。");
+        //    return;
+        //}
 
-        SceneManager.LoadScene(nextSceneName);
+        SceneManager.LoadScene(nextSceneName);//シーンを変更するプログラム
     }
 
     //ゲームが実際に始まったタイミングで出す
