@@ -579,6 +579,7 @@ GameObject:
   - component: {fileID: 330585545}
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
+  - component: {fileID: 330585548}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -704,6 +705,23 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &330585548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b49f4559f2adf541b4383d50ae10019, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MultiplayerCamera3D
+  angleOffset: {x: -2, y: 6, z: 10}
+  minDistance: 12
+  padding: 1.5
+  positionSmoothTime: 0.3
+  distanceSmoothTime: 0.4
 --- !u!1001 &355627570
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2874,6 +2892,7 @@ MonoBehaviour:
   timerText: {fileID: 1342467977}
   startTime: 180
   nextSceneName: 
+  elapsedTime: 0
 --- !u!114 &1342467977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3856,6 +3875,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerScript
   moveSpeed: 6
   holdPoint: {fileID: 0}
+  meterScript: {fileID: 0}
+  itemSpawner: {fileID: 0}
 --- !u!65 &1763513623
 BoxCollider:
   m_ObjectHideFlags: 0

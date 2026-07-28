@@ -5,17 +5,18 @@ using UnityEngine;
 
 public class ConveyorBelt : MonoBehaviour
 {
-    //コンベア
-    //コンベアの速度
+    [Header("参照")]
+    [SerializeField] TimerScript timer;
+    [SerializeField] ItemSpawner spawner;
+    [Header("コンベア")]
+    [Header("コンベアの速度")]
     [SerializeField] float startspeed = 2f;
     private float speed;
-    //物体の固定する高さ
+    private float speedMultiplier = 1f;
+    [Header("物体の固定(高さのみ)")]
     [SerializeField] float height = 1.0f;
-
     //時間経過ごとの加速度
-    //TimeScriptを参照する
-    [SerializeField] TimerScript timer;
-    //コンベア速度
+    [Header("コンベア速度")]
     [SerializeField] float Time120; //2分
     [SerializeField] float Time60;  //1分
     [SerializeField] float Time30;  //30秒
@@ -26,13 +27,11 @@ public class ConveyorBelt : MonoBehaviour
     private bool speedUp0=false;
 
     //時間経過ごとの物体生成数
-    //ItemSpawnerを参照する
-    [SerializeField] ItemSpawner spawner;
-    //物体頻度
+    [Header("物体生成頻度")]
     [SerializeField] float ItemTime120;
     [SerializeField] float ItemTime60;
     [SerializeField] float ItemTime30;
-    [SerializeField] float ItemTime0;
+    [SerializeField] float ItemTime0 = 0.0f;
 
     //初期化
     void Start()
@@ -86,7 +85,7 @@ public class ConveyorBelt : MonoBehaviour
 
         //右方向へ流す
         other.transform.position +=
-            Vector3.right * speed * Time.deltaTime;
+            Vector3.right * speed *speedMultiplier* Time.deltaTime;
 
         //高さ固定
         pos.y = height;
@@ -107,5 +106,9 @@ public class ConveyorBelt : MonoBehaviour
         {
             other.tag = "Pickup";
         }
+    }
+    public void SetSpeedMultiplier(float multiplier)
+    {
+        speedMultiplier = multiplier;
     }
 }
