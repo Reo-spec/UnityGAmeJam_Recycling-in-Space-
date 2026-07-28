@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 65c5a7daf4514445baface73c86231d7
+guid: 77a94b527bd94436baf8d92cde91d7a9
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material
-    second: {fileID: 2100000, guid: 88dbfa2932ec1445cbdde52939a2721d, type: 2}
+      name: material_Bottle
+    second: {fileID: 2100000, guid: 2df34f191625a4f8f84efb1094789eeb, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -113,5 +113,5 @@ AssetOrigin:
   productId: 221035
   packageName: Props 3D
   packageVersion: 1.02
-  assetPath: Assets/bag.fbx
+  assetPath: Assets/Props_3D/Fbx/bottle3_lowpoly.fbx
   uploadId: 586663

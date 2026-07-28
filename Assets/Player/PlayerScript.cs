@@ -1,6 +1,7 @@
 ///
 ///プレイヤーを制御するクラス
 ///
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -19,7 +20,8 @@ public class PlayerScript : MonoBehaviour
 
     GameObject heldItem;// 現在持っているアイテム
     GameObject nearbyItem;// プレイヤーの近くにあるアイテム
-
+    [Header("持てる距離")]
+    [SerializeField]float Distance;
     //参照
     [SerializeField] MeterScript meterScript;
     [SerializeField] ItemSpawner itemSpawner;
@@ -119,6 +121,11 @@ public class PlayerScript : MonoBehaviour
         // 近くにアイテムが無ければ何もしない
         if (nearbyItem == null) return;
 
+        float dist = Vector3.Distance(
+           transform.position,
+           nearbyItem.transform.position
+        );
+        if (dist > Distance) return;
         BombItem bomb = nearbyItem.GetComponent<BombItem>();
         //爆弾判定
         if(bomb != null)
@@ -199,6 +206,7 @@ public class PlayerScript : MonoBehaviour
             heldItem.tag = "Pickup";
             // 持ち物を空にする
             heldItem = null;
+            nearbyItem = null;
 
         }
     }

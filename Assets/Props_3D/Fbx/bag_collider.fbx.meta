@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 65c5a7daf4514445baface73c86231d7
+guid: 9fa892827b67b43868cce2b04ec1decd
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable: []
@@ -113,5 +113,5 @@ AssetOrigin:
   productId: 221035
   packageName: Props 3D
   packageVersion: 1.02
-  assetPath: Assets/bag.fbx
+  assetPath: Assets/Props_3D/Fbx/bag_collider.fbx
   uploadId: 586663
