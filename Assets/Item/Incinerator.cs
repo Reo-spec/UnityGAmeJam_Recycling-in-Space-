@@ -13,6 +13,9 @@ public class Incinerator : MonoBehaviour
     [SerializeField] int Success;
     [Header("失敗時のポイント")]
     [SerializeField] int Failure;
+
+    public SoundScript PointUp2sePlayer;       // SoundScriptのGameObjectを割り当てる
+    public AudioClip PointUp2seSound;
     private void OnTriggerEnter(Collider other)
     {
         //持っているものは回収しない
@@ -26,6 +29,7 @@ public class Incinerator : MonoBehaviour
         if (mineral != null)
         {
             meter.Trash += Success;
+            PointUp2sePlayer.Play(PointUp2seSound);
         }
         else
         {

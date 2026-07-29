@@ -26,6 +26,12 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] MeterScript meterScript;
     [SerializeField] ItemSpawner itemSpawner;
 
+    public SoundScript sePlayer;      // SoundManagerのSEPlayerを割り当てる
+    public AudioClip grabSound;    // つかむ音を割り当てる
+
+    public SoundScript BombsePlayer;       // SoundScriptのGameObjectを割り当てる
+    public AudioClip explosionSound; // 爆発音ファイルを割り当てる
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -70,7 +76,9 @@ public class PlayerScript : MonoBehaviour
         if (playerInput.actions["Grab"].WasPressedThisFrame())
         {
             if (heldItem == null)
+            {
                 PickUp();
+            }   
             else
                 Drop();
         }
@@ -80,6 +88,8 @@ public class PlayerScript : MonoBehaviour
     {
         // 近くにアイテムが無ければ何もしない
         if (nearbyItem == null) return;
+
+        sePlayer.Play(grabSound, 0.5f);
 
         float dist = Vector3.Distance(
            transform.position,
@@ -94,6 +104,8 @@ public class PlayerScript : MonoBehaviour
             meterScript.MistakeCount += bomb.penalty;
             //アイテム数を減らす
             itemSpawner.RemoveItemCount();
+
+            BombsePlayer.Play(explosionSound, 2.0f);
 
         }
         // 持つアイテムとして保存
