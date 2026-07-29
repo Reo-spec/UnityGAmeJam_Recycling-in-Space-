@@ -1,6 +1,7 @@
 ///
 ///ゴミ箱を管理するクラス
 ///
+using NUnit.Framework;
 using UnityEngine;
 
 public class Trashbox : MonoBehaviour
@@ -9,6 +10,9 @@ public class Trashbox : MonoBehaviour
     [SerializeField] int correctID;
     [Header("参照")]
     [SerializeField] MeterScript meter;
+
+    public SoundScript PointUpPlayer;       // SoundScriptのGameObjectを割り当てる
+    public AudioClip UpSound;
 
     void Start()
     {
@@ -28,6 +32,7 @@ public class Trashbox : MonoBehaviour
         if (trash.trashID == correctID)
         {
             meter.Trash++;
+            PointUpPlayer.Play(UpSound, 1.0f);
         }
         else
         {
