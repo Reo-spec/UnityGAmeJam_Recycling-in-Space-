@@ -32,23 +32,34 @@ public class PlayerScript : MonoBehaviour
     public SoundScript BombsePlayer;       // SoundScriptのGameObjectを割り当てる
     public AudioClip explosionSound; // 爆発音ファイルを割り当てる
 
+    private Animator animator;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>(); // ← 追加
+        animator = GetComponentInChildren<Animator>();
         MultiplayerCamera3D.Instance.RegisterPlayer(transform);
     }
 
     void OnDestroy()
     {
-        MultiplayerCamera3D.Instance.UnregisterPlayer(transform);
+        if(MultiplayerCamera3D.Instance != null)
+        {
+            MultiplayerCamera3D.Instance.UnregisterPlayer(transform);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         Grab();// 掴む処理
+
+        Vector2 moveInput=
+            playerInput.actions["Move"].ReadValue<Vector2>();
+
+        bool isMoving = moveInput.magnitude > 0.1f;
+        animator.SetBool("Speed",isMoving);
     }
 
     void FixedUpdate()
@@ -67,7 +78,14 @@ public class PlayerScript : MonoBehaviour
 
         //transform.Translate(move.normalized * moveSpeed * Time.deltaTime);
 
-        Vector3 targetPos = rb.position + move.normalized * moveSpeed * Time.deltaTime;
+        //向きを変更
+        if (move.sqrMagnitude > 0.01f)
+        {
+            Quaternion targetRot = Quaternion.LookRotation(move);
+            transform.rotation = targetRot;
+        }
+
+        Vector3 targetPos = rb.position + move.normalized * moveSpeed * Time.fixedDeltaTime;
         rb.MovePosition(targetPos);
     }
     //プレイヤーが物体を掴む動き
@@ -110,7 +128,10 @@ public class PlayerScript : MonoBehaviour
         }
         // 持つアイテムとして保存
         heldItem = nearbyItem;
-
+        if(animator !=null)
+        {
+            animator.SetBool("HasItem", true);
+        }
         heldItem.tag = "HeldItem";
 
         // Rigidbodyを取得
@@ -180,6 +201,10 @@ public class PlayerScript : MonoBehaviour
             heldItem = null;
             nearbyItem = null;
 
+        }
+        if(animator !=null)
+        {
+            animator.SetBool("HasItem", false);
         }
     }
     private void OnTriggerEnter(Collider other)
