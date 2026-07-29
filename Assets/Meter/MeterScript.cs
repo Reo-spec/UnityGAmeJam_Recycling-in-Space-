@@ -3,6 +3,8 @@
 ///
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class MeterScript : MonoBehaviour
 {
@@ -21,6 +23,9 @@ public class MeterScript : MonoBehaviour
 
     //Countの数だけ画像を用意して、順番にセットする
     [SerializeField] Sprite[] meterSprites;
+
+    [SerializeField] private string GameOverName = "GameOver"; // 次のシーンができたら、ここにシーン名を入れる
+    [SerializeField] private string GameClearName = "GameClear"; 
 
     //メーターのカウント
     int Count = 0;
@@ -72,12 +77,12 @@ public class MeterScript : MonoBehaviour
         //メーターが0から-1になった場合(ゲームオーバー)
         if(Count < 0)
         {
-
+            SceneManager.LoadScene("GameOver");//シーンを変更するプログラム
         }
         //ゲームクリア条件
         else if(Count>=CountMax)
         {
-
+            SceneManager.LoadScene("GameClear");//シーンを変更するプログラム
         }
     }
 
