@@ -12,7 +12,7 @@ public class EventManager : MonoBehaviour
         MeteorImpact //隕石衝突
     }
 
-    public EventState CurrentState=EventState.Normal;
+    public EventState CurrentState = EventState.Normal;
 
     [Header("参照")]
     [SerializeField] private ConveyorBelt conveyorBelt;
@@ -26,7 +26,7 @@ public class EventManager : MonoBehaviour
     [Header("イベント継続時間")]
     [SerializeField] private float eventDuration = 20f;
     [Header("イベントコンベア速度(倍率)")]
-    [SerializeField] private float eventConveyorSpeed=1.2f;
+    [SerializeField] private float eventConveyorSpeed = 1.2f;
     private float eventtimer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -39,9 +39,9 @@ public class EventManager : MonoBehaviour
     {
         if (CurrentState != EventState.Normal) return;
 
-        eventtimer-= Time.deltaTime;
+        eventtimer -= Time.deltaTime;
 
-        if(eventtimer<=0 )
+        if (eventtimer <= 0)
         {
             CheckEvent();
             ResetTimer();
@@ -56,9 +56,9 @@ public class EventManager : MonoBehaviour
     void CheckEvent()
     {
         if (timer.elapsedTime <= 30f) return;
-        if (CurrentState != EventState.Normal)return;
+        if (CurrentState != EventState.Normal) return;
 
-        if(Random.value<=eventChance)
+        if (Random.value <= eventChance)
         {
             StartMeteorEvent();
         }
@@ -78,6 +78,8 @@ public class EventManager : MonoBehaviour
         conveyorBelt.SetSpeedMultiplier(eventConveyorSpeed);
 
         Invoke(nameof(EndMeteorEvent), eventDuration);
+
+
     }
     //隕石イベント終了
     void EndMeteorEvent()
@@ -90,5 +92,13 @@ public class EventManager : MonoBehaviour
         ResetTimer();
 
         Debug.Log("隕石イベント終了");
+    }
+
+    public bool IsMeteorEvent
+    {
+        get
+        {
+            return CurrentState == EventState.MeteorImpact;
+        }
     }
 }
